@@ -1,7 +1,7 @@
 var geo_common = require ('./_geo_common');
 var _ = require('lodash');
 var defaults = require('../query/reverse_defaults');
-var LAT_LON_IS_REQUIRED = true,
+var LAT_LON_IS_REQUIRED = false,
     CIRCLE_IS_REQUIRED = false,
     RECT_IS_REQUIRED = false;
 
@@ -21,6 +21,8 @@ function _sanitize( raw, clean ){
   if (['lat', 'lon'].some(hasBoundaryCircleField)) {
     messages.warnings.push('boundary.circle.lat/boundary.circle.lon are currently unsupported');
   }
+
+  clean.rank = raw.rank;
   
   try {
       // first verify that point.lat/point.lon are valid
@@ -52,6 +54,7 @@ function _expected(){
   return [
   { name: 'point.lat' },
   { name: 'point.lon' },
+  { name: 'rank' },
   { name: 'rect.min_lat' },
   { name: 'rect.max_lat' },
   { name: 'rect.min_lon' },

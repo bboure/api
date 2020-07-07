@@ -11,7 +11,6 @@ var query = new peliasQuery.layout.FilteredBooleanQuery();
 // (none)
 
 // scoring boost
-query.sort( peliasQuery.view.sort_distance );
 
 // non-scoring hard filters
 query.filter( peliasQuery.view.boundary_circle );
@@ -66,8 +65,10 @@ function generateQuery( clean ){
     });
   }
 
-  if(_.isString(clean['rank']) && clean['rank'] === 'popularity') {
+  if(_.isString(clean.rank) && clean.rank === 'popularity') {
     query.score( peliasQuery.view.popularity( peliasQuery.view.leaf.match_all ) );
+  } else {
+    query.sort( peliasQuery.view.sort_distance );
   }
 
   // bounding circle
